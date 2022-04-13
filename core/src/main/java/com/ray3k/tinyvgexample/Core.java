@@ -25,6 +25,7 @@ import dev.lyze.gdxtinyvg.TinyVGAssetLoader;
 import dev.lyze.gdxtinyvg.drawers.TinyVGShapeDrawer;
 import dev.lyze.gdxtinyvg.scene2d.TinyVGDrawable;
 import dev.lyze.gdxtinyvg.scene2d.TinyVGRegionDrawable;
+import dev.lyze.gdxtinyvg.scene2d.TinyVGRegionImage;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Core extends ApplicationAdapter {
@@ -49,12 +50,8 @@ public class Core extends ApplicationAdapter {
 		
 		TinyVGAssetLoader assetLoader = new TinyVGAssetLoader();
 		tvg = assetLoader.load("pig.tvg");
-		TinyVGRegionDrawable drawable = new TinyVGRegionDrawable(tvg, drawer, 4);
-		
-		Image image = new Image(drawable);
-		image.setScaling(Scaling.fit);
+		TinyVGRegionImage image = new TinyVGRegionImage(tvg, drawer, 4);
 		root.add(image).size(300);
-		drawable.update(300, 300);
 	}
 
 	@Override
