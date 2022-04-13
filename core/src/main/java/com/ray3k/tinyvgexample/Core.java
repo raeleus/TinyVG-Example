@@ -51,7 +51,7 @@ public class Core extends ApplicationAdapter {
 		TinyVGAssetLoader assetLoader = new TinyVGAssetLoader();
 		tvg = assetLoader.load("pig.tvg");
 		TinyVGRegionImage image = new TinyVGRegionImage(tvg, drawer, 4);
-		root.add(image).size(300);
+		root.add(image).grow();
 	}
 
 	@Override
