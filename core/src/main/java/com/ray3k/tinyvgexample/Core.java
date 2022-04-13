@@ -24,6 +24,7 @@ import dev.lyze.gdxtinyvg.TinyVG;
 import dev.lyze.gdxtinyvg.TinyVGAssetLoader;
 import dev.lyze.gdxtinyvg.drawers.TinyVGShapeDrawer;
 import dev.lyze.gdxtinyvg.scene2d.TinyVGDrawable;
+import dev.lyze.gdxtinyvg.scene2d.TinyVGRegionDrawable;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Core extends ApplicationAdapter {
@@ -48,20 +49,12 @@ public class Core extends ApplicationAdapter {
 		
 		TinyVGAssetLoader assetLoader = new TinyVGAssetLoader();
 		tvg = assetLoader.load("pig.tvg");
-		TinyVGDrawable drawable = new TinyVGDrawable(tvg, drawer);
+		TinyVGRegionDrawable drawable = new TinyVGRegionDrawable(tvg, drawer, 4);
 		
-		sound = Gdx.audio.newSound(Gdx.files.internal("squeal.mp3"));
-		ImageButtonStyle style = new ImageButtonStyle();
-		style.imageUp = drawable;
-		style.pressedOffsetY = -5;
-		ImageButton button = new ImageButton(style);
-		root.add(button).size(200);
-		button.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				sound.play();
-			}
-		});
+		Image image = new Image(drawable);
+		image.setScaling(Scaling.fit);
+		root.add(image).size(300);
+		drawable.update(300, 300);
 	}
 
 	@Override
