@@ -39,11 +39,12 @@ public class Core extends ApplicationAdapter {
 		stage.addActor(root);
 		
 		TinyVGAssetLoader assetLoader = new TinyVGAssetLoader();
-		tvg = assetLoader.load("logo.tvg");
+		tvg = assetLoader.load("pig.tvg");
 		TinyVGDrawable drawable = new TinyVGDrawable(tvg, drawer);
-		Image image = new Image(drawable);
-		image.setScaling(Scaling.fit);
-		root.add(image).grow();
+		
+		Table table = new Table();
+		table.setBackground(drawable);
+		root.add(table).size(300);
 	}
 
 	@Override
