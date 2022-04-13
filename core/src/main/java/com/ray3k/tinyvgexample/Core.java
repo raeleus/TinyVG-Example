@@ -7,24 +7,43 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dev.lyze.gdxtinyvg.TinyVG;
 import dev.lyze.gdxtinyvg.TinyVGAssetLoader;
 import dev.lyze.gdxtinyvg.drawers.TinyVGShapeDrawer;
+import dev.lyze.gdxtinyvg.scene2d.TinyVGDrawable;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Core extends ApplicationAdapter {
 	private TinyVG tvg;
 	private TinyVGShapeDrawer drawer;
-	private Viewport viewport = new ScreenViewport();
+	private Viewport viewport;
+	private SpriteBatch spriteBatch;
+	private Stage stage;
 
 	@Override
 	public void create() {
-		TinyVGAssetLoader assetLoader = new TinyVGAssetLoader();
-		tvg = assetLoader.load("pig.tvg");
+		spriteBatch = new SpriteBatch();
+		viewport = new ScreenViewport();
+		drawer = new TinyVGShapeDrawer(spriteBatch);
+		stage = new Stage(viewport, spriteBatch);
 		
-		drawer = new TinyVGShapeDrawer(new SpriteBatch());
+		Gdx.input.setInputProcessor(stage);
+		Table root = new Table();
+		root.setFillParent(true);
+		stage.addActor(root);
+		
+		TinyVGAssetLoader assetLoader = new TinyVGAssetLoader();
+		tvg = assetLoader.load("logo.tvg");
+		TinyVGDrawable drawable = new TinyVGDrawable(tvg, drawer);
+		Image image = new Image(drawable);
+		image.setScaling(Scaling.fit);
+		root.add(image).grow();
 	}
 
 	@Override
@@ -32,19 +51,8 @@ public class Core extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		viewport.apply();
-		drawer.getBatch().setProjectionMatrix(viewport.getCamera().combined);
-		
-		drawer.setColor(1f, 0f, 0f, .5f);
-		tvg.setRotation(45f);
-		tvg.setScale(2f);
-		tvg.centerOrigin();
-		tvg.setShearX(.25f);
-		tvg.setClipBasedOnTVGSize(false);
-		
-		drawer.getBatch().begin();
-		tvg.draw(drawer);
-		drawer.getBatch().end();
+		stage.act();
+		stage.draw();
 	}
 	
 	@Override
