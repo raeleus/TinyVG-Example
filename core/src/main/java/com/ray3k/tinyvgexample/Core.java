@@ -40,6 +40,7 @@ public class Core extends ApplicationAdapter {
 		tvg.setScale(2f);
 		tvg.centerOrigin();
 		tvg.setShearX(.25f);
+		tvg.setClipBasedOnTVGSize(false);
 		
 		drawer.getBatch().begin();
 		tvg.draw(drawer);
