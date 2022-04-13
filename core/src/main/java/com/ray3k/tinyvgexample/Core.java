@@ -53,8 +53,8 @@ public class Core extends ApplicationAdapter {
 		
 		Image image = new Image(drawable);
 		image.setScaling(Scaling.fit);
-		root.add(image).size(300);
-		drawable.update(300, 300);
+		root.add(image).grow();
+		drawable.update(100, 100);
 	}
 
 	@Override
