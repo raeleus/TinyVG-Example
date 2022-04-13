@@ -35,6 +35,12 @@ public class Core extends ApplicationAdapter {
 		viewport.apply();
 		drawer.getBatch().setProjectionMatrix(viewport.getCamera().combined);
 		
+		drawer.setColor(1f, 0f, 0f, .5f);
+		tvg.setRotation(45f);
+		tvg.setScale(2f);
+		tvg.centerOrigin();
+		tvg.setShearX(.25f);
+		
 		drawer.getBatch().begin();
 		tvg.draw(drawer);
 		drawer.getBatch().end();
