@@ -2,14 +2,21 @@ package com.ray3k.tinyvgexample;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -25,6 +32,7 @@ public class Core extends ApplicationAdapter {
 	private Viewport viewport;
 	private SpriteBatch spriteBatch;
 	private Stage stage;
+	private Sound sound;
 
 	@Override
 	public void create() {
@@ -42,9 +50,18 @@ public class Core extends ApplicationAdapter {
 		tvg = assetLoader.load("pig.tvg");
 		TinyVGDrawable drawable = new TinyVGDrawable(tvg, drawer);
 		
-		Table table = new Table();
-		table.setBackground(drawable);
-		root.add(table).size(300);
+		sound = Gdx.audio.newSound(Gdx.files.internal("squeal.mp3"));
+		ImageButtonStyle style = new ImageButtonStyle();
+		style.imageUp = drawable;
+		style.pressedOffsetY = -5;
+		ImageButton button = new ImageButton(style);
+		root.add(button).size(200);
+		button.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				sound.play();
+			}
+		});
 	}
 
 	@Override
